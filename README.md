@@ -10,12 +10,12 @@ that's the computers problem.
 
 * This setup will probably only be useful for me.
 * Best case scenario is it will be useful for the roughly 5 other people
-  who own [ClusterHAT](https://clusterhat.com/) boards
+  who own [ClusterHAT](https://clusterhat.com/) boards.
 
 But anyway, here it is. I will make a reasonable effort to keep it general :-)
 
 The setup, as shipped, will configure a controller called `pacman`,
-and three workers called `inky`, `pinky` and `blinky`.
+and three workers called `inky`, `pinky` and `blinky`. If you don't like that, you can change it in `roster` and `srv/pillar/data.sls`, and adjust commands accordingly.
 
 This **needs** to be connected to your network via ethernet. If you only connect
 via wifi, weird stuff will happen because the bridge is set on ethernet.
@@ -23,8 +23,10 @@ via wifi, weird stuff will happen because the bridge is set on ethernet.
 ## Instructions (assumes you have gone over [Salt in 10 minutes](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html))
 
 * Setup a salt master
-* Put this project in your `/srv/salt` or whatever
+* Put this project's `srv/` in your `/srv/` or whatever
 * Copy the `roster` file to `/etc/salt/roster`
+
+**REVIEW `/etc/salt/roster` and `srv/pillar/data.sls`**
 
 * Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
 * Create an empty `boot/ssh` file in it
