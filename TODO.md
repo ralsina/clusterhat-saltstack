@@ -7,3 +7,4 @@
 * Use beacons/reactors to restart salt-minion when salt config is changed
 * Add NFS volumes for docker
 * Implement some sort of cluster dashboard (should be fun)
+* Add docs about adding other nodes to the docker cluster (my Mele 1000!)
