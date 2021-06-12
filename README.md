@@ -30,6 +30,15 @@ whatever. It works for what I want to do :-)
 
 **REVIEW `/etc/salt/roster` and `srv/pillar/data.sls`**
 
+* Add the formulas to your `/etc/salt/master`:
+
+  ```yaml
+    file_roots:
+      base:
+        - /srv/salt
+        - /srv/formulas/timezone/
+  ```
+
 * Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
 * Create an empty `boot/ssh` file in it
 * Put it in the controller and boot it
