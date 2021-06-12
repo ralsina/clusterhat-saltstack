@@ -1,1 +1,1 @@
-master: salma.local
+master: {{ pillar.get('salt_master') }}

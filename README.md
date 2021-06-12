@@ -24,6 +24,7 @@ via wifi, weird stuff will happen because the bridge is set on ethernet.
 
 * Setup a salt master
 * Put this project in your `/srv/salt` or whatever
+* Copy the `roster` file to `/etc/salt/roster`
 
 * Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
 * Create an empty `boot/ssh` file in it

@@ -1,0 +1,23 @@
+# The ClusterHat controller
+pacman:
+  host: pacman.local
+  user: pi
+  passwd: clusterctrl
+  sudo: true
+
+# ClusterHat workers
+inky:
+  host: inky.local
+  user: pi
+  passwd: clusterctrl
+  sudo: true
+pinky:
+  host: pinky.local
+  user: pi
+  passwd: clusterctrl
+  sudo: true
+blinky:
+  host: blinky.local
+  user: pi
+  passwd: clusterctrl
+  sudo: true
