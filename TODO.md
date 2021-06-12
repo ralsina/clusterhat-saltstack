@@ -1,6 +1,6 @@
 # Stuff I have not done yet
 
-* Add netshare (see https://github.com/ContainX/docker-volume-netshare/issues/187)
+* Setup and document NFS volumes
 * Rewrite the docker swarm stuff using salt.modules.swarm
   which I didn't know existed
 * Add some services as second stage (say gitea?)
