@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+wheezy:
+  pkg:
+    deps:
+      name: linux-image-amd64
+
+jessie:
+  pkg:
+    deps:
+      name: linux-image-amd64
+
+trusty:
+  pkg:
+    deps:
+      - linux-image-extra-virtual
+      - linux-image-extra-{{ grains.kernelrelease }}
+
+precise:
+  pkg:
+    deps:
+      - linux-image-generic-lts-raring
+      - linux-headers-generic-lts-raring

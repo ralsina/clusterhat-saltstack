@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+FreeBSD:
+  # https://reviews.freebsd.org/D21570
+  pkg:
+    deps:
+      - devel/py-pip
+
+CentOS:
+  pkg:
+    deps:
+      - procps
+      - yum-utils
+
+OEL:
+  pkg:
+    docker:
+      repo:
+        baseurl: 'https://download.docker.com/linux/centos/{{ grains.get('osmajorrelease', '') }}/$basearch/stable'
+        file: '/etc/yum.repos.d/docker-ce.repo'
+        gpgkey: 'https://download.docker.com/linux/centos/gpg'
+
+Amazon:
+  pkg:
+    docker:
+      repo:
+        baseurl: 'https://download.docker.com/linux/centos/7/$basearch/stable'
+        file: '/etc/yum.repos.d/docker-ce.repo'
+        gpgkey: 'https://download.docker.com/linux/centos/gpg'
+
+Fedora:
+  pkg:
+    deps:
+      - selinux-policy-minimum
+      - python3-dnf-plugin-versionlock

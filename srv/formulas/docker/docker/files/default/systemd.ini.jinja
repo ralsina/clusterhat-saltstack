@@ -1,0 +1,20 @@
+#########################################################
+# File managed by Salt. Changes risk being overwritten.
+#########################################################
+[Unit]
+Description={{ desc }}
+Wants=network-online.target
+After=
+Documentation=https://docs.docker.com
+
+[Service]
+User={{ user }}
+Group={{ group }}
+WorkingDirectory={{ workdir }}
+ExecStart={{ start }}
+ExecStop={{ stop }}
+PIDFile=/var/run/{{ name }}.pid
+Environment={{ '' if not env else env }}
+
+[Install]
+WantedBy=multi-user.target

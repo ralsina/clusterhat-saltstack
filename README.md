@@ -37,6 +37,7 @@ whatever. It works for what I want to do :-)
       base:
         - /srv/salt
         - /srv/formulas/timezone/
+        - /srv/formulas/docker/
   ```
 
 * Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
