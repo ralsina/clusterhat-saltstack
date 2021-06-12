@@ -1,5 +1,6 @@
 # clusterhat-saltstack
 
+[TOC]
 ## So, what is this thing?
 
 A SaltStack setup to configure a ClusterHAT quickly.
@@ -23,7 +24,7 @@ via wifi, weird stuff will happen because the bridge is set on ethernet.
 Yes, I *know* Swarm is old and obsolete and we should all be using Kubernetes or
 whatever. It works for what I want to do :-)
 
-## Instructions (assumes you have gone over [Salt in 10 minutes](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html))
+## Setup Instructions (assumes you have gone over [Salt in 10 minutes](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html))
 
 * Setup a salt master
 * Put this project's `srv/` in your `/srv/` or whatever
@@ -91,11 +92,38 @@ Perform final configuration in all workers:
 
 * `salt '*inky' state.apply worker`
 
-**Optional:**
+### Optional
 
 Update all the software in all the nodes to latest version:
 
 * `salt '*' pkg.upgrade`
 
 And that's it. You now have a 4-node docker swarm.
+
+## Setup NFS Volumes
+
+The goal of this cluster is to run stuff. The only storage so far is one 
+SD card. So, we will need something else. Since I have a NAS, I am going to be
+using [NFS storage.](https://sysadmins.co.za/docker-swarm-persistent-storage-with-nfs/)
+
+* Make sure you have one largish disk with enough free space for whatever you want
+  to persist in a machine that will be the NFS server.
+* Share it with NFS (details are up to you)
+* Make sure you can mount it and access its contents as user `pi` from all our 
+  cluster nodes.
+
+In my case the NFS server is called `nas.local` and the NFS share is `ArcadeData`:
+
+```shell
+pi@pacman ~> mkdir t
+pi@pacman ~> sudo mount nas.local:/ArcadeData t
+pi@pacman ~> df -h t
+Filesystem             Size  Used Avail Use% Mounted on
+nas.local:/ArcadeData  148G  6.1G  142G   5% /home/pi/t
+pi@pacman ~> touch t/foo
+pi@pacman ~> ls -l t/foo
+-rw-r--r-- 1 pi pi 0 Jun 12 15:27 t/foo
+pi@pacman ~> rm t/foo
+pi@pacman ~> sudo umount t
+```
 
