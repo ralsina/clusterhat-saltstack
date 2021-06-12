@@ -78,5 +78,11 @@ Perform final configuration in all workers:
 
 * `salt '*inky' state.apply worker`
 
+**Optional:**
+
+Update all the software in all the nodes to latest version:
+
+* `salt '*' pkg.upgrade`
+
 And that's it. You now have a 4-node docker swarm.
 

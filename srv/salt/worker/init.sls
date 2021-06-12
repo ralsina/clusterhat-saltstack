@@ -1,3 +1,5 @@
+# Setup a swarm worker
+
 include: 
-  - base
-  - worker.swarm
+  - base          # Basic packages
+  - worker.swarm  # Configure docker and join the swarm as worker
