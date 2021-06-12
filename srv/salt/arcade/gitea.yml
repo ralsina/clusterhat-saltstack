@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    image: strobi/rpi-gitea:latest
+    volumes:
+      - data:/data
+    ports:
+      - "3000:3000"
+      - "3022:22"
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    deploy:
+      replicas: 2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50K"
+
+volumes:
+  data:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/gitea
