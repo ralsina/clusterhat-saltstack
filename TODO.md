@@ -6,3 +6,4 @@
 * Add portainer or some other manager UI
 * Use beacons/reactors to restart salt-minion when salt config is changed
 * Add NFS volumes for docker
+* Implement some sort of cluster dashboard (should be fun)
