@@ -1,0 +1,13 @@
+[Unit]
+Description=mount s3ql filesystem
+Wants=network-online.target
+After=network-online.target
+Conflicts=shutdown.target
+
+[Service]
+ExecStart=/usr/bin/mount.s3ql --fg --log=/var/log/s3ql/mount.log local:///opt/s3qlfs /var/lib/clusterctrl/nfs
+ExecStop=/usr/bin/umount.s3ql /var/lib/clusterctrl/nfs
+TimeoutStopSec=infinity
+
+[Install]
+WantedBy=multi-user.target
