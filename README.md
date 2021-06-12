@@ -127,3 +127,5 @@ pi@pacman ~> rm t/foo
 pi@pacman ~> sudo umount t
 ```
 
+## Deploy Gitea
+

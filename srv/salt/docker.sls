@@ -2,6 +2,10 @@ install_docker:
   cmd.run:
     - name: curl -sSL https://get.docker.com | sh
     - creates: /etc/docker/key.json
+  pkg.installed:
+    - pkgs:
+      - python3-docker
+      
 
 docker-volume-netshare:
   pkg.installed:
