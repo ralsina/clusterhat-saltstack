@@ -20,6 +20,8 @@ and three workers called `inky`, `pinky` and `blinky`. If you don't like that, y
 This **needs** to be connected to your network via ethernet. If you only connect
 via wifi, weird stuff will happen because the bridge is set on ethernet.
 
+Yes, I *know* Swarm is old and obsolete and we should all be using Kubernetes or
+whatever. It works for what I want to do :-)
 ## Instructions (assumes you have gone over [Salt in 10 minutes](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html))
 
 * Setup a salt master
