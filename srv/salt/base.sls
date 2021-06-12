@@ -31,3 +31,6 @@ resolve_self:
     - names: 
       - {{ grains['host'] }}
 
+
+# Set timezone
+timezone: {}  # Specific timezone defined in pillar
