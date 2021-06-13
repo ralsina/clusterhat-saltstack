@@ -219,3 +219,27 @@ Since we have Salt, we can make things easier. All of the Arcade cluster's
 stacks are defined in `srv/salt/arcade`, use them as examples.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
+
+# Run a command on a node
+
+Often you will want to run a command in a specific node, or all nodes 
+of a "kind" or whatever.
+
+To run a command, salt provides `cmd.run` which you use like this:
+
+`salt target cmd.run command arg1 arg2 ... argN`
+
+The tricky part is `target` so let's explain it a bit.
+
+This configuration defines two roles, `controller` and `worker`, and four nodes:
+
+* `pacman`: our only controller
+* `inky`, `pinky` and `blinky`: our three workers.
+
+With that in mind:
+
+* To target all nodes, use the target `'*'` (yes, with the single quotes)
+* To target a single node for which you know the name, use the name as target. For example: `blinky`
+* To target by role, for example all workers: `-G roles:worker`
+
+There are other ways to do this but for that you can go and learn Salt.
