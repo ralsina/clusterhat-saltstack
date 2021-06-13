@@ -10,3 +10,6 @@ workers:
 timezone:
   name: 'America/Argentina/Buenos_Aires'
   utc: true
+
+stacks:
+  gitea: true
