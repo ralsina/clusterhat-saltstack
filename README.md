@@ -174,3 +174,15 @@ Since we have Salt, we can make things easier. All of the Arcade cluster's
 stacks are defined in `srv/salt/arcade`.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
+
+
+**TEMPORARY**
+
+For now, until I improve it:
+
+To enable/disable the gitea stack, edit `srv/pillar/data.sls` and
+set stacks -> gitea to True (deploy) ot False (remove). Then run
+
+`salt 'pacman' state.apply arcade.gitea` 
+
+And the state should deploy or remove the stack as configured.
