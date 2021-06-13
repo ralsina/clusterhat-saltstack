@@ -32,14 +32,13 @@ whatever. It works for what I want to do :-)
 
 **REVIEW `/etc/salt/roster` and `srv/pillar/data.sls`**
 
-* Add the formulas to your `/etc/salt/master`:
+* Add the file_roots to your `/etc/salt/master`:
 
   ```yaml
     file_roots:
       base:
-        - /srv/salt
+        - /srv/salt  # Or wherever you put them
         - /srv/formulas/timezone/
-        - /srv/formulas/docker/
   ```
 
 * Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
@@ -127,7 +126,53 @@ pi@pacman ~> rm t/foo
 pi@pacman ~> sudo umount t
 ```
 
-## Deploying Docker Stacks
+# Deploying
+
+To deploy your cluster, you need apply the "High state". That particular
+bit of Salt jargon means running this:
+
+`salt '*' state.apply`
+
+You usually would run this after you change something in your configuration.
+
+# Updating all nodes
+
+To update the software in a specific node, do this using the target node instead of `pacman`:
+
+`salt pacman pkg.upgrade`
+
+To update it on all nodes:
+
+`salt '*' pkg.upgrade`
+
+You should probably reboot them afterwards.
+# Rebooting nodes
+
+To reboot a single node, do this using the target node instead of `pacman`:
+
+`salt pacman cmd.run sudo reboot`
+
+To reboot them all:
+
+`salt '*' cmd.run sudo reboot`
+
+## Enabling and disabling stacks in the cluster
+
+You can think of a stack as an application (more details later). This 
+projects includes the ones I use in my cluster, but you can add/remove/change them all you want.
+
+In `srv/pillar/data.sls` there is a `stacks` section:
+
+```yaml
+stacks:
+  gitea: True
+```
+
+If a stack is there and set to `True`, it will deploy to the swarm on the next deployment.
+
+If it's not there or is set to `False`, it will be removed or not deployed as necessary.
+
+## Creating Docker Stacks
 
 A stack is a collection of services. A service is basically a container running something.
 
@@ -171,18 +216,6 @@ The "normal" way to deploy `gitea.yml` would be to run this in one of the manage
 `docker stack deploy --compose-file gitea.yml gitea`
 
 Since we have Salt, we can make things easier. All of the Arcade cluster's 
-stacks are defined in `srv/salt/arcade`.
+stacks are defined in `srv/salt/arcade`, use them as examples.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
-
-
-**TEMPORARY**
-
-For now, until I improve it:
-
-To enable/disable the gitea stack, edit `srv/pillar/data.sls` and
-set stacks -> gitea to True (deploy) ot False (remove). Then run
-
-`salt 'pacman' state.apply arcade.gitea` 
-
-And the state should deploy or remove the stack as configured.
