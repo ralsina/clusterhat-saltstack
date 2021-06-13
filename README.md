@@ -1,6 +1,15 @@
 # clusterhat-saltstack
 
-[TOC]
+* [So, what is this thing?](#so-what-is-this-thing)
+* [Setup Instructions](#setup-instructions)
+* [Setup NFS Volumes](#setup-nfs-volumes)
+* [Deploying](#deploying)
+* [Updating all nodes](#updating-all-nodes)
+* [Rebooting nodes](#rebooting-nodes)
+* [Enabling and disabling stacks in the cluster](#enabling-and-disabling-stacks-in-the-cluster)
+* [Creating Docker Stacks](#creating-docker-stacks)
+* [Run a command on a node](#run-a-command-on-a-node)
+
 ## So, what is this thing?
 
 A SaltStack setup to configure a ClusterHAT quickly.
@@ -24,7 +33,9 @@ via wifi, weird stuff will happen because the bridge is set on ethernet.
 Yes, I *know* Swarm is old and obsolete and we should all be using Kubernetes or
 whatever. It works for what I want to do :-)
 
-## Setup Instructions (assumes you have gone over [Salt in 10 minutes](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html))
+## Setup Instructions 
+
+Assuming you have gone over [Salt in 10 minutes)](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html):
 
 * Setup a salt master
 * Put this project's `srv/` in your `/srv/` or whatever
@@ -126,7 +137,7 @@ pi@pacman ~> rm t/foo
 pi@pacman ~> sudo umount t
 ```
 
-# Deploying
+## Deploying
 
 To deploy your cluster, you need apply the "High state". That particular
 bit of Salt jargon means running this:
@@ -135,7 +146,7 @@ bit of Salt jargon means running this:
 
 You usually would run this after you change something in your configuration.
 
-# Updating all nodes
+## Updating all nodes
 
 To update the software in a specific node, do this using the target node instead of `pacman`:
 
@@ -146,7 +157,7 @@ To update it on all nodes:
 `salt '*' pkg.upgrade`
 
 You should probably reboot them afterwards.
-# Rebooting nodes
+## Rebooting nodes
 
 To reboot a single node, do this using the target node instead of `pacman`:
 
@@ -220,7 +231,7 @@ stacks are defined in `srv/salt/arcade`, use them as examples.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
 
-# Run a command on a node
+## Run a command on a node
 
 Often you will want to run a command in a specific node, or all nodes 
 of a "kind" or whatever.
