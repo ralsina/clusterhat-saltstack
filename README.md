@@ -127,5 +127,50 @@ pi@pacman ~> rm t/foo
 pi@pacman ~> sudo umount t
 ```
 
-## Deploy Gitea
+## Deploying Docker Stacks
 
+A stack is a collection of services. A service is basically a container running something.
+
+The way to deploy them is to create a "compose file" like this one for the 
+`gitea` stack, which runs a single service called `gitea` and persists state in a volume called `volume_gitea`.
+
+It also exposes two ports (3000 and 3022) which are forwarded to ports 3000 and 22 in the container.
+
+```yaml
+version: '3.8'
+
+services:
+  gitea:
+    image: strobi/rpi-gitea:latest
+    volumes:
+      - volume_gitea:/data
+    ports:
+      - "3000:3000"
+      - "3022:22"
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    deploy:
+      replicas: 1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50K"
+
+volumes:
+  volume_gitea:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/gitea
+```
+
+Once you have compose files for your stacks, you can deploy them.
+
+The "normal" way to deploy `gitea.yml` would be to run this in one of the managers:
+
+`docker stack deploy --compose-file gitea.yml gitea`
+
+Since we have Salt, we can make things easier. All of the Arcade cluster's 
+stacks are defined in `srv/salt/arcade`.
+
+This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
