@@ -9,3 +9,5 @@
 * Implement some sort of cluster dashboard (should be fun)
 * Add docs about adding other nodes to the docker cluster (my Mele 1000!)
 * Something to do about file deduplication for the NFS server
+
+* Cut down on software installed on the zeros

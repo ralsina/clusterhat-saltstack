@@ -4,11 +4,11 @@
 * [Setup Instructions](#setup-instructions)
 * [Setup NFS Volumes](#setup-nfs-volumes)
 * [Deploying](#deploying)
+* [Run a command on a node](#run-a-command-on-a-node)
 * [Updating all nodes](#updating-all-nodes)
 * [Rebooting nodes](#rebooting-nodes)
 * [Enabling and disabling stacks in the cluster](#enabling-and-disabling-stacks-in-the-cluster)
 * [Creating Docker Stacks](#creating-docker-stacks)
-* [Run a command on a node](#run-a-command-on-a-node)
 
 ## So, what is this thing?
 
@@ -72,7 +72,7 @@ The rest of these instructions are to be executed in the salt controller.
 
 Setup the controller and the NFS boot data for the workers. This will take a while:
 
-* `salt-ssh -i -v -l trace -thin-extra-modules=salt 'pacman' state.apply controller`
+* `salt-ssh -i -v -l trace --thin-extra-modules=salt 'pacman' state.apply controller`
 * `salt-ssh -i pacman -r 'sudo reboot'`
 * `salt-key -L` and repeat until `pacman` is booted and you see a key called `pacman`
   as `Unaccepted`
@@ -83,7 +83,7 @@ At this point, your controller is completely configured.
 Log into the controller and turn on your pi zeros. For example 
 
 * `ssh pi@pacman.local`
-* `clusterctrl on p1 p2 p3`
+* `sudo clusterctrl on p1 p2 p3`
 
 Wait until all the zeros are booted and accessible via ssh as `inky.local`, 
 `pinky.local` and `blinky.local`
@@ -91,6 +91,7 @@ Wait until all the zeros are booted and accessible via ssh as `inky.local`,
 Setup `salt-minion` into all workers:
 
 * `salt-ssh -i -v -l trace -t --thin-extra-modules=salt '*inky' state.apply base`
+* `salt-ssh '*inky' state.apply worker`
 
 Reboot all workers
 
@@ -100,7 +101,6 @@ Reboot all workers
 
 Perform final configuration in all workers:
 
-* `salt '*inky' state.apply worker`
 
 ### Optional
 
@@ -146,7 +146,29 @@ bit of Salt jargon means running this:
 
 You usually would run this after you change something in your configuration.
 
-## Updating all nodes
+## Run a command on a node
+
+Often you will want to run a command in a specific node, or all nodes 
+of a "kind" or whatever.
+
+To run a command, salt provides `cmd.run` which you use like this:
+
+`salt target cmd.run "command arg1 arg2 ... argN"`
+
+The tricky part is `target` so let's explain it a bit.
+
+This configuration defines two roles, `controller` and `worker`, and four nodes:
+
+* `pacman`: our only controller
+* `inky`, `pinky` and `blinky`: our three workers.
+
+With that in mind:
+
+* To target all nodes, use the target `'*'` (yes, with the single quotes)
+* To target a single node for which you know the name, use the name as target. For example: `blinky`
+* To target by role, for example all workers: `-G roles:worker`
+
+There are other ways to do this but for that you can go and learn Salt.## Updating all nodes
 
 To update the software in a specific node, do this using the target node instead of `pacman`:
 
@@ -157,15 +179,26 @@ To update it on all nodes:
 `salt '*' pkg.upgrade`
 
 You should probably reboot them afterwards.
-## Rebooting nodes
+## Rebooting a swarm node
 
-To reboot a single node, do this using the target node instead of `pacman`:
+To reboot a single node, we need to "drain" it so it has no services running, and then mark it as active again later.
 
-`salt pacman cmd.run sudo reboot`
+To do this using the target node instead of `inky`, but **DO** use `pacman` to drain the node first.
 
-To reboot them all:
+```
+salt pacman cmd.run "docker node update --availability drain inky"
+salt inky cmd.run sudo reboot
+[Wait for reboot to end]
+salt pacman cmd.run docker "node update --availability active inky"
 
-`salt '*' cmd.run sudo reboot`
+```
+
+To reboot them all ... **This will probably mess stuff up!**:
+
+```
+salt '*' cmd.run sudo reboot
+```
+
 
 ## Enabling and disabling stacks in the cluster
 
@@ -230,27 +263,3 @@ Since we have Salt, we can make things easier. All of the Arcade cluster's
 stacks are defined in `srv/salt/arcade`, use them as examples.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
-
-## Run a command on a node
-
-Often you will want to run a command in a specific node, or all nodes 
-of a "kind" or whatever.
-
-To run a command, salt provides `cmd.run` which you use like this:
-
-`salt target cmd.run command arg1 arg2 ... argN`
-
-The tricky part is `target` so let's explain it a bit.
-
-This configuration defines two roles, `controller` and `worker`, and four nodes:
-
-* `pacman`: our only controller
-* `inky`, `pinky` and `blinky`: our three workers.
-
-With that in mind:
-
-* To target all nodes, use the target `'*'` (yes, with the single quotes)
-* To target a single node for which you know the name, use the name as target. For example: `blinky`
-* To target by role, for example all workers: `-G roles:worker`
-
-There are other ways to do this but for that you can go and learn Salt.

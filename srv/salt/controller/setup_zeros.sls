@@ -33,7 +33,7 @@ setup_grains_p{{loop.index}}:
   - makedirs: true
 setup_salt_minion_p{{loop.index}}:
   file.managed:
-  - name: /etc/salt/minion
+  - name: /var/lib/clusterctrl/nfs/p{{loop.index}}/etc/salt/minion
   - source: salt://controller/salt_minion
   - makedirs: true
   - template: jinja
