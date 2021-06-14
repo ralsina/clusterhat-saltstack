@@ -183,7 +183,7 @@ You should probably reboot them afterwards.
 
 To reboot a single node, we need to "drain" it so it has no services running, and then mark it as active again later.
 
-To do this using the target node instead of `inky`, but **DO** use `pacman` to drain the node first.
+To do this using the target node instead of `inky`, but **DO** use `pacman` as the target to drain the node.
 
 ```
 salt pacman cmd.run "docker node update --availability drain inky"
