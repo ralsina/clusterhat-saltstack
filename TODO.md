@@ -11,7 +11,13 @@
 * Something to do about file deduplication for the NFS server
 
 * Cut down on software installed on the zeros
-* Node labels (see https://docs.docker.com/engine/swarm/manage-nodes/#add-or-remove-label-metadata) from pillar
 
 * Re-run from scratch with CBRIDGE (new highstate on boot may save steps)
 * Run/debug with CNAT
+
+* Implement node label removing prior to re-adding them
+  
+  starting point: `docker node inspect inky | jq '.[0].Spec.Labels|keys'` 
+
+* Fix passwords/logins so you just can't without the key
+* Make everything use the deployed registry

@@ -8,6 +8,7 @@ common_packages:
       - nmap
       - salt-minion
       - python3-pyinotify
+      - jq
 
 # Let me in
 /home/pi/.ssh/authorized_keys:

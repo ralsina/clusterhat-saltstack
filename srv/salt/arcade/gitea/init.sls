@@ -7,7 +7,7 @@
 
 deploy_gitea:
   cmd.run:
-    - name: docker stack deploy --volume-driver nfs --compose-file /home/pi/gitea.yml gitea
+    - name: docker stack deploy --compose-file /home/pi/gitea.yml gitea
     - onchanges:
       - file: /home/pi/gitea.yml
 

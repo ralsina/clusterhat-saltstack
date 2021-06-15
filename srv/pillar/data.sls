@@ -7,6 +7,27 @@ workers:
   - pinky
   - blinky
 
+# Docker labels to apply to members of the swarm
+# For example, pacman is a "large" node because it's
+# a "pi3" and inky is a "small" "zero"
+# Please notice that this doesn't REMOVE labels 
+# not listed here (yet)
+
+labels:
+  pacman:
+    - large
+    - pi3
+  inky:
+    - zero
+    - small
+  pinky:
+    - zero
+    - small
+  blinky:
+    - zero
+    - small
+  
+
 # Just so I don't have to tweak it on each machine
 timezone:
   name: 'America/Argentina/Buenos_Aires'
@@ -18,5 +39,5 @@ timezone:
 # running
 
 stacks:
-  gitea: False
-  registry: False
+  gitea: True
+  registry: True

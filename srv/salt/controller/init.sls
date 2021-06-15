@@ -46,3 +46,16 @@ setup_controller_minion:
   - template: jinja
   - defaults:
     salt_master: "salt"  # Same default as salt
+
+# Add labels to nodes
+{% for node, labels in pillar.get('labels', {}).items() %}
+labels_for_{{node}}:
+  cmd.run:
+    - name: 'docker node update {% for label in labels %} --label-add {{label}}=True {% endfor %} {{node}}'
+{% endfor %}
+
+# Setup dummy NFS volume so the plugin loads (is a bug, see https://github.com/ContainX/docker-volume-netshare/issues/48)
+dummy_nfs:
+  cmd.run: 
+    - name: docker volume create --driver=nfs foo
+    - unless: docker volume inspect foo

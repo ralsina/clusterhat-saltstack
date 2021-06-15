@@ -19,4 +19,9 @@ services:
       - USER_GID=1000
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          # Only deploy to the large node
+          # because this doesn't work on zeros
+          - node.labels.large == True
 

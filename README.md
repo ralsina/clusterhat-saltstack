@@ -67,8 +67,7 @@ then the system should be accessible with `ssh pi@cbridge.local` (password is cl
 
 Now the system should be available via `ssh pi@pacman.local`
 
-The rest of these instructions are to be executed in the salt controller.
-
+**The rest of these instructions are to be executed in the salt controller.**
 
 Setup the controller and the NFS boot data for the workers. This will take a while:
 
