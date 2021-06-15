@@ -12,8 +12,7 @@
 
 * Cut down on software installed on the zeros
 
-* Re-run from scratch with CBRIDGE (new highstate on boot may save steps)
-* Run/debug with CNAT
+* Run/debug with CNAT instead of CBRIDGE
 
 * Implement node label removing prior to re-adding them
   
@@ -21,3 +20,5 @@
 
 * Fix passwords/logins so you just can't without the key
 * Make everything use the deployed registry
+* Investigate alternative OS for the zeros. Alpine?
+* Implement logging server
