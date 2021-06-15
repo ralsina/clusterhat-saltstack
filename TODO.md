@@ -11,3 +11,4 @@
 * Something to do about file deduplication for the NFS server
 
 * Cut down on software installed on the zeros
+* Node labels (see https://docs.docker.com/engine/swarm/manage-nodes/#add-or-remove-label-metadata) from pillar

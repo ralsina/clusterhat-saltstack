@@ -18,4 +18,5 @@ timezone:
 # running
 
 stacks:
-  gitea: True
+  gitea: False
+  registry: False

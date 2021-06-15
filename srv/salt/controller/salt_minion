@@ -1,1 +1,2 @@
 master: {{ pillar.get('salt_master') }}
+startup_states: highstate
