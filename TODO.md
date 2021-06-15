@@ -12,3 +12,6 @@
 
 * Cut down on software installed on the zeros
 * Node labels (see https://docs.docker.com/engine/swarm/manage-nodes/#add-or-remove-label-metadata) from pillar
+
+* Re-run from scratch with CBRIDGE (new highstate on boot may save steps)
+* Run/debug with CNAT
