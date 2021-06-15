@@ -39,4 +39,9 @@ setup_salt_minion_p{{loop.index}}:
   - template: jinja
   - defaults:
     salt_master: "salt"  # Same default as salt
+powerup_p{{loop.index}}:
+  cmd.run:
+  - name: clusterctrl on p{{loop.index}}
 {% endfor %}
+
+

@@ -90,7 +90,6 @@ Wait until all the zeros are booted and accessible via ssh as `inky.local`,
 Setup `salt-minion` into all workers:
 
 * `salt-ssh -i -v -l trace -t --thin-extra-modules=salt '*inky' state.apply base`
-* `salt-ssh '*inky' state.apply worker`
 
 Reboot all workers
 
