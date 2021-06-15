@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+  volume_registry:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/registry
+
+services:
+  registry:
+    image: registry:2
+    volumes:
+      - volume_registry:/data
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 1
+
