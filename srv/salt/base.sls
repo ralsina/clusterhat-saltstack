@@ -9,6 +9,7 @@ common_packages:
       - salt-minion
       - python3-pyinotify
       - jq
+      - picocom
 
 # Let me in
 /home/pi/.ssh/authorized_keys:
