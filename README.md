@@ -9,6 +9,7 @@
 * [Rebooting nodes](#rebooting-nodes)
 * [Enabling and disabling stacks in the cluster](#enabling-and-disabling-stacks-in-the-cluster)
 * [Creating Docker Stacks](#creating-docker-stacks)
+* [Adding a zero or reconfiguring one](#adding-a-zero-or-reconfiguring-one)
 
 ## So, what is this thing?
 
@@ -261,3 +262,25 @@ Since we have Salt, we can make things easier. All of the Arcade cluster's
 stacks are defined in `srv/salt/arcade`, use them as examples.
 
 This will ensure files are installed in the swarm manager in a reasonable place and deploy them.
+
+## Adding a zero or reconfiguring one
+
+Sometimes you need to add or reconfigure a pi zero from scratch on a running cluster.
+
+Since there isn't any important state on the zero's filesystem you can just, in this example
+for a p4 called clyde:
+
+```
+$ rm -rf /var/lib/clusterctrl/nfs/p4/*  # Remove anything that my be there
+$ salt pacman state.apply               # Set controller to "high" state
+$                                       # Setup salt minion on clyde
+$ salt-ssh -i -v -l trace -t --thin-extra-modules=salt clyde state.apply base
+$ salt-ssh -i clyde -r 'sudo reboot'    # Reboot clyde
+$ salt clyde state.apply                # Set clyde to "high" state
+```
+
+And then accepting the new minion key in `salt-key`.
+
+**Caveats:** you may run into trouble in some spots because the ssh key for that
+host may have changed, handle accordingly.
+

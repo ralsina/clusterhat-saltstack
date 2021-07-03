@@ -18,10 +18,6 @@
   
   starting point: `docker node inspect inky | jq '.[0].Spec.Labels|keys'` 
 
-* Fix passwords/logins so you just can't without the key
 * Make everything use the deployed registry
 * Investigate alternative OS for the zeros. Alpine?
 * Implement logging server
-
-* Passwordsless login on serial ports
-* Block password-based login via ssh
