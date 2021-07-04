@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 volumes:
   volume_gitea:
@@ -13,7 +13,7 @@ services:
       - volume_gitea:/data
     ports:
       - "3000:3000"
-      - "3022:22"
+      - "22:22"
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -21,7 +21,30 @@ services:
       replicas: 1
       placement:
         constraints:
-          # Only deploy to the large node
+          # Only deploy to a large node
           # because this doesn't work on zeros
           - node.labels.large == True
+      labels:
+        # Expose via traefik
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik-constraint-label=traefik-public
 
+        # Available as inky.local/gitea (FIXME: should work in pacman.local)
+        # Accessible via HTTP and HTTPS
+        - traefik.http.routers.gitea.rule=Host(`inky.local`) && PathPrefix(`/gitea/`)
+        - traefik.http.routers.gitea.entrypoints=http,https
+
+        # Strip the /gitea from the URL
+        - traefik.http.middlewares.gitea-strip.stripprefix.prefixes=/gitea
+        - traefik.http.middlewares.gitea-strip.stripprefix.forceSlash=False
+        - traefik.http.routers.gitea.middlewares=gitea-strip@docker
+
+        # Proxy to port 3000
+        - traefik.http.services.gitea.loadbalancer.server.port=3000
+    networks:  # Allow communication with traefik
+      - traefik-public
+
+networks:
+  traefik-public:
+    external: true

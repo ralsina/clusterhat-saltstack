@@ -47,7 +47,7 @@ autologin_p{{loop.index}}:  # Automatic login without user/password over tty
   - name: /var/lib/clusterctrl/nfs/p{{loop.index}}/lib/systemd/system/getty@.service
   - source: salt://controller/getty@.service
 disable_ssh_password_login_p{{loop.index}}:  # Only allow logging in with public key
-  file.managet:
+  file.managed:
   - name: /var/lib/clusterctrl/nfs/p{{loop.index}}/etc/ssh/sshd_config
   - source: salt://controller/sshd_config
 {% endfor %}

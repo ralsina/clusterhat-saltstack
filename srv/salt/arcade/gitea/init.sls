@@ -8,8 +8,6 @@
 deploy_gitea:
   cmd.run:
     - name: docker stack deploy --compose-file /home/pi/gitea.yml gitea
-    - onchanges:
-      - file: /home/pi/gitea.yml
 
 {% else %}
 /home/pi/gitea.yml:

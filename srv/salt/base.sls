@@ -29,7 +29,9 @@ common_packages:
 # Fix hostname
 resolve_self:
   host.present:
-    - ip: 127.0.1.1
+    - ip: 
+      - 127.0.1.1
+      - 127.0.0.1
     - names: 
       - {{ grains['host'] }}
 

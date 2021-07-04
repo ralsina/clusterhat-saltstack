@@ -17,15 +17,19 @@ labels:
   pacman:
     - large
     - pi3
+    - controller
   inky:
     - zero
     - small
+    - worker
   pinky:
     - zero
     - small
+    - worker
   blinky:
     - zero
     - small
+    - worker
   
 
 # Just so I don't have to tweak it on each machine
@@ -39,5 +43,10 @@ timezone:
 # running
 
 stacks:
+  # These three you REALLY need
+  traefik: True
+  coredns: True
+  registry: False
+
+  # These are apps, so enable them if you want them  
   gitea: True
-  registry: True

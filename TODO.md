@@ -21,3 +21,6 @@
 * Make everything use the deployed registry
 * Investigate alternative OS for the zeros. Alpine?
 * Implement logging server
+
+
+* Automate creation of traefik-public network (docker_network.present doesn't really work in swarm)
