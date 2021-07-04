@@ -30,15 +30,9 @@ services:
         - traefik.docker.network=traefik-public
         - traefik-constraint-label=traefik-public
 
-        # Available as inky.local/gitea (FIXME: should work in pacman.local)
         # Accessible via HTTP and HTTPS
-        - traefik.http.routers.gitea.rule=Host(`inky.local`) && PathPrefix(`/gitea/`)
+        - traefik.http.routers.gitea.rule=Host(`gitea.cluster`)
         - traefik.http.routers.gitea.entrypoints=http,https
-
-        # Strip the /gitea from the URL
-        - traefik.http.middlewares.gitea-strip.stripprefix.prefixes=/gitea
-        - traefik.http.middlewares.gitea-strip.stripprefix.forceSlash=False
-        - traefik.http.routers.gitea.middlewares=gitea-strip@docker
 
         # Proxy to port 3000
         - traefik.http.services.gitea.loadbalancer.server.port=3000
