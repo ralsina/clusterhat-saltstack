@@ -1,0 +1,22 @@
+version: "3.8"
+
+volumes:
+  volume_coredns:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/coredns
+
+services:
+  coredns:
+    image: coredns/coredns
+    command: -conf /root/Corefile
+    ports:
+      - "53:53/udp"
+    volumes:
+      - volume_coredns:/root
+    networks:  # Allow communication with traefik
+      - traefik-public
+
+networks:
+  traefik-public:
+    external: true
