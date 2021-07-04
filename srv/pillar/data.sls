@@ -46,8 +46,7 @@ stacks:
   # These three you REALLY need
   traefik: True
   coredns: True
-  registry: False
+  registry: True
 
   # These are apps, so enable them if you want them  
   gitea: True
-  dashboard: True  # This is really slow and doesn't do much :-/

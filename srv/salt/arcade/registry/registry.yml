@@ -10,7 +10,7 @@ services:
   registry:
     image: registry:2
     volumes:
-      - volume_registry:/data
+      - volume_registry:/var/lib/registry
     ports:
       - "5000:5000"
     deploy:

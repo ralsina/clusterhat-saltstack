@@ -299,5 +299,3 @@ Then, CoreDns will make ANY `whatever.cluster` point to the cluster's external
 IP address, so it should just work.
 
 However, this means you need to make your computer use the cluster as your DNS server, or setup a bunch of host entries in your computer. Sorry, no idea how to make this simpler yet.
-
-
