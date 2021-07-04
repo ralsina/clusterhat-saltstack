@@ -1,4 +1,4 @@
-cluster.      IN SOA ns1.cluster. ralsina.netmanagers.com.ar 1 7200 3600 1209600 3600
+cluster.      IN SOA ns1.cluster. ralsina.netmanagers.com.ar 15 7200 3600 1209600 3600
 
-*	IN 	A	192.168.0.27
+*	IN 	A	192.168.0.61
 
