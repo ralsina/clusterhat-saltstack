@@ -1,4 +1,4 @@
-# States for the gitea service (TBD)
+# States for the gitea service
 
 {% if pillar.get('stacks').get('gitea', False) %}
 /home/pi/gitea.yml:

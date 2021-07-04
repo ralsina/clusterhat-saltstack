@@ -50,3 +50,4 @@ stacks:
 
   # These are apps, so enable them if you want them  
   gitea: True
+  dashboard: True  # This is really slow and doesn't do much :-/
