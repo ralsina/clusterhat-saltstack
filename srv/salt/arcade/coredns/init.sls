@@ -9,6 +9,9 @@
 /mnt/nas/coredns/Corefile:
   file.managed:
     - source: salt://arcade/coredns/Corefile
+/mnt/nas/coredns/cluster.db:
+  file.managed:
+    - source: salt://arcade/coredns/cluster.db
 
 deploy_coredns:
   cmd.run:

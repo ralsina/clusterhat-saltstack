@@ -4,8 +4,8 @@
     errors
 }
 
-example.com:53 {
-    file /root/example.db
+cluster:53 {
+    file /root/cluster.db
     log
     errors
 }
