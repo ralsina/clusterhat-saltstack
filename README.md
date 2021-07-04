@@ -284,3 +284,20 @@ And then accepting the new minion key in `salt-key`.
 **Caveats:** you may run into trouble in some spots because the ssh key for that
 host may have changed, handle accordingly.
 
+## Accessing the services
+
+Some services need nothing special because they are unique. For example, we are using 
+[CoreDns](https://coredns.io/) to provide DNS. We are not going to run two of those
+so they are exposed in port 53 UDP and that's it.
+
+On the other hand, some services have overlap. Specially websites.
+
+For those, we use hostnames. For example, for gitea it's `gitea.cluster` and for
+traefik it's `traefik.cluster`.
+
+Then, CoreDns will make ANY `whatever.cluster` point to the cluster's external
+IP address, so it should just work.
+
+However, this means you need to make your computer use the cluster as your DNS server, or setup a bunch of host entries in your computer. Sorry, no idea how to make this simpler yet.
+
+
