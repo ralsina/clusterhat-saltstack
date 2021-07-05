@@ -50,3 +50,4 @@ stacks:
 
   # These are apps, so enable them if you want them  
   gitea: True
+  transmission: True

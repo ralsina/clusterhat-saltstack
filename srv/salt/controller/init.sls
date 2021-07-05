@@ -60,10 +60,10 @@ dummy_nfs:
     - name: docker volume create --driver=nfs foo
     - unless: docker volume inspect foo
 
-
 # Mount NAS to apply configurations inside volumes used by containers
 /mnt/nas:
   mount.mounted:
     - device: nas.local:/ArcadeData
     - mkmnt: True
     - fstype: nfs
+

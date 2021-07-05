@@ -1,5 +1,5 @@
 ChallengeResponseAuthentication no
-UsePAM no
+UsePAM yes
 X11Forwarding yes
 PrintMotd no
 AcceptEnv LANG LC_*

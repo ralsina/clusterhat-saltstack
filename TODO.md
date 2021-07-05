@@ -22,5 +22,8 @@
 * Investigate alternative OS for the zeros. Alpine?
 * Implement logging server
 
+# Buggy stuff
 
 * Automate creation of traefik-public network (docker_network.present doesn't really work in swarm)
+* Put all the NFS root filesystems and /var/lib/docker somewhere else (they contain images for
+  docker containers, so can get LARGE)

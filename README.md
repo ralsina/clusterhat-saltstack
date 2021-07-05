@@ -34,6 +34,19 @@ via wifi, weird stuff will happen because the bridge is set on ethernet.
 Yes, I *know* Swarm is old and obsolete and we should all be using Kubernetes or
 whatever. It works for what I want to do :-)
 
+## Hardware Required
+
+This is not "required", it's just what I got. If you don't have one of these
+things in most cases you can tweak things around it. For example, if you 
+don'thave a thumb drive, you can use a larger SD card on the controller, 
+and so on.
+
+* A "large" Raspberry Pi (say, a 3 or a 4) as the cluster controller
+* 1 or more "small" Raspberry Pis (zero or zero w)
+* 1 ClusterHat to connect them all together
+* 1 SD card to boot the controller from
+* 1 "large" NFS server (depending on what you want to do)
+
 ## Setup Instructions 
 
 Assuming you have gone over [Salt in 10 minutes)](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html):
@@ -78,12 +91,8 @@ Setup the controller and the NFS boot data for the workers. This will take a whi
   as `Unaccepted`
 * `salt-key -a pacman`
 
-At this point, your controller is completely configured.
-
-Log into the controller and turn on your pi zeros. For example 
-
-* `ssh pi@pacman.local`
-* `sudo clusterctrl on p1 p2 p3`
+At this point, your controller is completely configured, and your
+zeros are booting.
 
 Wait until all the zeros are booted and accessible via ssh as `inky.local`, 
 `pinky.local` and `blinky.local`
