@@ -29,7 +29,7 @@ The setup, as shipped, will configure a controller called `pacman`,
 and three workers called `inky`, `pinky` and `blinky`. If you don't like that, you can change it in `roster` and `srv/pillar/data.sls`, and adjust commands accordingly.
 
 This **needs** to be connected to your network via ethernet. If you only connect
-via wifi, weird stuff will happen because the bridge is set on ethernet.
+via wifi, weird stuff may happen, and I have NOT tested it, ok?
 
 Yes, I *know* Swarm is old and obsolete and we should all be using Kubernetes or
 whatever. It works for what I want to do :-)
@@ -83,7 +83,7 @@ Now the system should be available via `ssh pi@pacman.local`
 
 **The rest of these instructions are to be executed in the salt controller.**
 
-Setup SSH jump host so we can access inky pinky and blinky by SSH even though they are
+Setup SSH jump host so we can later access inky pinky and blinky by SSH even though they are
 behind NAT. Just put this in `/etc/ssh/ssh_config` or `~/.ssh/config` for whatever 
 user will use `salt-ssh` (probably root). Yes, this is very slightly insecure.
 Your choice.
@@ -119,7 +119,8 @@ Host blinky
 
 **Make sure the salt-ssh user can login into pi@pacman.local without a password!**
 
-Setup the controller and the NFS boot data for the workers. This will take a while:
+Setup the controller and the NFS boot data for the workers. This will take a while 
+(as in, maybe half an hour!):
 
 * `salt-ssh -i -v -l trace --thin-extra-modules=salt 'pacman' state.apply controller`
 * `salt-ssh -i pacman -r 'sudo reboot'`
