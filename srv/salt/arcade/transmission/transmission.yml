@@ -1,0 +1,33 @@
+version: "3"
+
+volumes:
+  volume_transmission_config:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/transmission/config
+  volume_transmission_downloads:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/transmission/downloads
+  volume_transmission_watch:
+    driver: nfs
+    driver_opts:
+      share: nas.local:/ArcadeData/transmission/watch
+
+services:
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    environment:
+      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+      - USER=username #optional
+      - PASS=password #optional
+      - WHITELIST=iplist #optional
+      - HOST_WHITELIST=dnsnane list #optional
+    volumes:
+      - volume_transmission_config:/config
+      - volume_transmission_downloads:/downloads
+      - volume_transmission_watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
