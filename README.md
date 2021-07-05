@@ -47,6 +47,30 @@ and so on.
 * 1 SD card to boot the controller from
 * 1 "large" NFS server (depending on what you want to do)
 
+## Preparation
+
+Before starting to install this, you want to adjust a few things.
+
+* Depending on how many zeros you are setting up:
+  
+  * Edit `roster`
+  * Edit `srv/pillar/data.sls` (workers, labels)
+
+* If it's an initial setup, you probably want to start without any stacks
+
+  * Edit `srv/pillar/data.sls` (stacks)
+
+## Setup NFS Volumes
+
+The goal of this cluster is to run stuff. The only storage so far is one 
+SD card. So, we will need something else. Since I have a NAS, I am going to be
+using [NFS storage.](https://sysadmins.co.za/docker-swarm-persistent-storage-with-nfs/)
+
+* Make sure you have one largish disk with enough free space for whatever you want
+  to persist in a machine that will be the NFS server.
+* Share it via NFS (details are up to you)
+* Make sure you can mount it and access its contents as user `pi`
+
 ## Setup Instructions 
 
 Assuming you have gone over [Salt in 10 minutes)](https://docs.saltproject.io/en/latest/topics/tutorials/walkthrough.html):
@@ -80,6 +104,9 @@ then the system should be accessible with `ssh pi@cnat.local` (password is clust
 * When asked, reboot
 
 Now the system should be available via `ssh pi@pacman.local`
+
+*This could be a good moment to verify that you can mount and use your NFS disks
+from the controller.*
 
 **The rest of these instructions are to be executed in the salt controller.**
 
@@ -137,21 +164,32 @@ Wait until all the zeros are booted and accessible via ssh as `inky`,
 `pinky` and `blinky` using `pacman` as jump host:
 
 ```
+$ ssh pi@blinky
+Warning: Permanently added 'pacman.local' (ED25519) to the list of known hosts.
+Warning: Permanently added 'blinky.local' (ED25519) to the list of known hosts.
+Linux blinky 5.4.79+ #1373 Mon Nov 23 13:18:15 GMT 2020 armv6l
 
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Jul  5 16:08:59 2021 from 172.19.181.254
+pi@blinky:~$ 
 ```
 
-Setup `salt-minion` into all workers:
+Setup `salt-minion` into all workers (again, this *will* take a while):
 
 * `salt-ssh -i -v -l trace -t --thin-extra-modules=salt '*inky' state.apply base`
 
-Reboot all workers
+Reboot all workers and connect them to the salt master:
 
 * `salt-ssh -i '*inky' -r 'sudo reboot'`
 * `salt-key -L` and repeat until you see `Unaccepted` keys for inky, pinky and blinky
 * `salt-key -A` accepts all keys
 
-Perform final configuration in all workers:
-
+**At this point everything is installed and configured.**
 
 ### Optional
 
@@ -160,33 +198,6 @@ Update all the software in all the nodes to latest version:
 * `salt '*' pkg.upgrade`
 
 And that's it. You now have a 4-node docker swarm.
-
-## Setup NFS Volumes
-
-The goal of this cluster is to run stuff. The only storage so far is one 
-SD card. So, we will need something else. Since I have a NAS, I am going to be
-using [NFS storage.](https://sysadmins.co.za/docker-swarm-persistent-storage-with-nfs/)
-
-* Make sure you have one largish disk with enough free space for whatever you want
-  to persist in a machine that will be the NFS server.
-* Share it with NFS (details are up to you)
-* Make sure you can mount it and access its contents as user `pi` from all our 
-  cluster nodes.
-
-In my case the NFS server is called `nas.local` and the NFS share is `ArcadeData`:
-
-```shell
-pi@pacman ~> mkdir t
-pi@pacman ~> sudo mount nas.local:/ArcadeData t
-pi@pacman ~> df -h t
-Filesystem             Size  Used Avail Use% Mounted on
-nas.local:/ArcadeData  148G  6.1G  142G   5% /home/pi/t
-pi@pacman ~> touch t/foo
-pi@pacman ~> ls -l t/foo
--rw-r--r-- 1 pi pi 0 Jun 12 15:27 t/foo
-pi@pacman ~> rm t/foo
-pi@pacman ~> sudo umount t
-```
 
 ## Deploying
 

@@ -32,9 +32,16 @@ resolve_self:
     - ip: 
       - 127.0.1.1
       - 127.0.0.1
+      - ::1
     - names: 
       - {{ grains['host'] }}
-
+  
+resolve_salt_master:
+  host.present:
+    - ip:
+      - {{pillar.get('salt_master_ip')}}
+    - names:
+      - {{pillar.get('salt_master')}}
 
 # Set timezone
 timezone: {}  # Specific timezone defined in pillar

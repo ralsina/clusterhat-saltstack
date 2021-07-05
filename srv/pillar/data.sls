@@ -1,5 +1,6 @@
-# Name or IP of the salt master
-salt_master: salma.local
+# Name and IP of the salt master
+salt_master: "salma.local"
+salt_master_ip: "192.168.0.25"
 
 # Names of the clusterhat workers in order
 workers:
