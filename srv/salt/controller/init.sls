@@ -24,6 +24,7 @@ accept forward:
 /etc/exports:
   file.managed:
   - source: salt://controller/exports
+  
 nfs-kernel-server:
   service.running:
   - require: 
@@ -47,11 +48,11 @@ setup_controller_minion:
   - defaults:
     salt_master: "salt"  # Same default as salt
 
-# Add labels to nodes
+# Add labels to nodes if they are joined
 {% for node, labels in pillar.get('labels', {}).items() %}
 labels_for_{{node}}:
   cmd.run:
-    - name: 'docker node update {% for label in labels %} --label-add {{label}}=True {% endfor %} {{node}}'
+    - name: 'docker node inspect {{node}} && docker node update {% for label in labels %} --label-add {{label}}=True {% endfor %} {{node}} || true'
 {% endfor %}
 
 # Setup dummy NFS volume so the plugin loads (is a bug, see https://github.com/ContainX/docker-volume-netshare/issues/48)

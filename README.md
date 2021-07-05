@@ -66,12 +66,12 @@ Assuming you have gone over [Salt in 10 minutes)](https://docs.saltproject.io/en
         - /srv/formulas/timezone/
   ```
 
-* Download the [ClusterHAT CBridge image](https://clusterctrl.com/setup-software) and flash into a SD card
+* Download the [ClusterHAT CNAT image](https://clusterctrl.com/setup-software) and flash into a SD card
 * Create an empty `boot/ssh` file in it
 * Put it in the controller and boot it
 
 Assuming you have a working Avahi/Zeroconf/mDNS thing in your local network (you should!)
-then the system should be accessible with `ssh pi@cbridge.local` (password is clusterctrl)
+then the system should be accessible with `ssh pi@cnat.local` (password is clusterctrl)
 
 * SSH into the cluster controller
 * Run `sudo raspi-config`
@@ -83,6 +83,42 @@ Now the system should be available via `ssh pi@pacman.local`
 
 **The rest of these instructions are to be executed in the salt controller.**
 
+Setup SSH jump host so we can access inky pinky and blinky by SSH even though they are
+behind NAT. Just put this in `/etc/ssh/ssh_config` or `~/.ssh/config` for whatever 
+user will use `salt-ssh` (probably root). Yes, this is very slightly insecure.
+Your choice.
+
+```
+### Access to ClusterHat Zeros
+
+Host pacman
+  HostName pacman.local
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 no
+
+Host inky
+  HostName inky.local
+  ProxyJump pi@pacman
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 no
+Host pinky      
+  HostName pinky.local
+  ProxyJump pi@pacman
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 no
+Host blinky
+  HostName blinky.local   
+  ProxyJump pi@pacman
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 no
+```
+
+**Make sure the salt-ssh user can login into pi@pacman.local without a password!**
+
 Setup the controller and the NFS boot data for the workers. This will take a while:
 
 * `salt-ssh -i -v -l trace --thin-extra-modules=salt 'pacman' state.apply controller`
@@ -91,11 +127,17 @@ Setup the controller and the NFS boot data for the workers. This will take a whi
   as `Unaccepted`
 * `salt-key -a pacman`
 
-At this point, your controller is completely configured, and your
-zeros are booting.
+At this point: 
 
-Wait until all the zeros are booted and accessible via ssh as `inky.local`, 
-`pinky.local` and `blinky.local`
+* Your controller is completely configured and running salt-minion.
+* Your zeros are booting.
+
+Wait until all the zeros are booted and accessible via ssh as `inky`, 
+`pinky` and `blinky` using `pacman` as jump host:
+
+```
+
+```
 
 Setup `salt-minion` into all workers:
 

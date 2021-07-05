@@ -1,5 +1,5 @@
 # TODO: use a template with a pillar
-/mnt/usb/nfs-roots/p1 172.19.180.1(rw,sync,no_subtree_check,no_root_squash)
-/mnt/usb/nfs-roots/p2 172.19.180.2(rw,sync,no_subtree_check,no_root_squash)
-/mnt/usb/nfs-roots/p3 172.19.180.3(rw,sync,no_subtree_check,no_root_squash)
-/mnt/usb/nfs-roots/p4 172.19.180.4(rw,sync,no_subtree_check,no_root_squash)
+/var/lib/clusterctrl/nfs/p1 172.19.180.1(rw,sync,no_subtree_check,no_root_squash)
+/var/lib/clusterctrl/nfs/p2 172.19.180.2(rw,sync,no_subtree_check,no_root_squash)
+/var/lib/clusterctrl/nfs/p3 172.19.180.3(rw,sync,no_subtree_check,no_root_squash)
+/var/lib/clusterctrl/nfs/p4 172.19.180.4(rw,sync,no_subtree_check,no_root_squash)
